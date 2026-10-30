@@ -12,16 +12,12 @@ def main():
     print("=" * 60)
     print("Type your question below (or 'exit' / 'quit' to stop).\n")
 
-    # Check for API Key
     if not os.environ.get("GEMINI_API_KEY"):
-        print("Warning: GEMINI_API_KEY environment variable is not set.")
-        print("Please set it before asking questions to live models.\n")
-
-    try:
-        agent = HelpdeskAgent()
-    except Exception as e:
-        print(f"Initialization Error: {e}")
+        print("Error: GEMINI_API_KEY environment variable is not set.")
+        print("Please set it in your environment or .env file before running.\n")
         sys.exit(1)
+
+    agent = HelpdeskAgent(timeout_seconds=15)
 
     while True:
         try:
@@ -33,16 +29,19 @@ def main():
                 print("\nThank you for reaching out to CityWheels! Goodbye.")
                 break
 
-            print("\nAgent thinking...", end="\r", flush=True)
             response = agent.run(user_input)
-            print(" " * 30, end="\r") # Clear "thinking" line
-            print(f"Agent:\n{response}")
+
+            if response.startswith("ERROR_TIMEOUT") or response.startswith("ERROR_API"):
+                print(f"\n[System Notice]: {response}")
+                print("Connection to Gemini failed or timed out. Please check your network connection or API key and try again.")
+            else:
+                print(f"\nAgent:\n{response}")
 
         except KeyboardInterrupt:
-            print("\n\nSession terminated by user. Goodbye!")
-            break
+            print("\n\nSession terminated. Goodbye!")
+            sys.exit(0)
         except Exception as e:
-            print(f"\n[Error processing request]: {e}")
+            print(f"\n[Unexpected Error]: {e}")
 
 if __name__ == "__main__":
     main()

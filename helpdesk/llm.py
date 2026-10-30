@@ -1,5 +1,7 @@
 from google.genai import types
 
+from helpdesk.search import search_policies
+from helpdesk.tools import get_booking, calculate_refund
 
 # Gemini Tool Declarations
 tool_search_policies = types.FunctionDeclaration(
@@ -32,7 +34,11 @@ tool_calculate_refund = types.FunctionDeclaration(
     )
 )
 
-CITYWHEELS_TOOLS = [types.Tool(function_declarations=[tool_search_policies, tool_get_booking, tool_calculate_refund])]
+CITYWHEELS_TOOLS = [
+    types.Tool(
+        function_declarations=[tool_search_policies, tool_get_booking, tool_calculate_refund]
+    )
+]
 
 SYSTEM_INSTRUCTION = """
 You are the customer support assistant for CityWheels, a bike rental shop.
