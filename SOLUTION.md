@@ -1,0 +1,1 @@
+RUN TESTS -> PYTHONPATH=. pytest tests/ 

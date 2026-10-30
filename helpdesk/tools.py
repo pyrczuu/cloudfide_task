@@ -1,4 +1,3 @@
-"""Tools the agent can call. Pure Python: no LLM in here."""
 import json
 from datetime import datetime, timedelta
 from decimal import ROUND_HALF_UP, Decimal
@@ -43,11 +42,6 @@ def get_booking(booking_id: str) -> dict:
 
 
 def calculate_refund(booking_id: str, now: datetime = DATE_NOW) -> dict:
-    """How much does the customer get back if they cancel at `now`?
-
-    `now` is NOT a parameter the model can set: the agent code never exposes it.
-    Tests pass it explicitly so results are deterministic.
-    """
     booking = _find(booking_id)
     if booking is None:
         return _not_found(booking_id)
