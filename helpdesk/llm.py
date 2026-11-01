@@ -1,9 +1,5 @@
 from google.genai import types
 
-from helpdesk.search import search_policies
-from helpdesk.tools import get_booking, calculate_refund
-
-# Gemini Tool Declarations
 tool_search_policies = types.FunctionDeclaration(
     name="search_policies",
     description="Search CityWheels rules, prices, FAQ, age limits, and cancellation policies.",
@@ -34,6 +30,7 @@ tool_calculate_refund = types.FunctionDeclaration(
     )
 )
 
+# Fix: Properly wrap function declarations in types.Tool
 CITYWHEELS_TOOLS = [
     types.Tool(
         function_declarations=[tool_search_policies, tool_get_booking, tool_calculate_refund]

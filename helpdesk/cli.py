@@ -17,7 +17,7 @@ def main():
         print("Please set it in your environment or .env file before running.\n")
         sys.exit(1)
 
-    agent = HelpdeskAgent(timeout_seconds=15)
+    agent = HelpdeskAgent(timeout_seconds=120)
 
     while True:
         try:
